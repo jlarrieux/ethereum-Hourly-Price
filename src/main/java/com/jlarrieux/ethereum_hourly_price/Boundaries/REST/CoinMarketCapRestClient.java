@@ -60,7 +60,9 @@ public class CoinMarketCapRestClient extends RestClient implements Serializable{
 
     private String currencyParse(double amount){
         Locale locale = new Locale("en", "US");
-        return NumberFormat.getCurrencyInstance(locale).format(amount);
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
+        numberFormat.setMinimumFractionDigits(0);
+        return numberFormat.format(amount);
     }
 
     public double calculatePercentage(){
@@ -72,7 +74,7 @@ public class CoinMarketCapRestClient extends RestClient implements Serializable{
         double percentDiff = calculatePercentage();
         writeLastPrice();
         String conditional = lastPrice==0?"":String.format("%s%.2f%%, ", qualifer(percentDiff), percentDiff);
-        return String.format("Current price of #Ethereum is $%.2f, %sa market cap of  %s, and a 24 hr vol. of %s"
+        return String.format("Current price of #Ethereum is $%.2f, %sa market cap of  %s and a 24 hr vol. of %s"
                 ,currentPrice, conditional, currencyParse(getMarketCap()), currencyParse(get24HourVolume()));
     }
 

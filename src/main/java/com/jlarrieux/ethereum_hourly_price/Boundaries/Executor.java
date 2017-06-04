@@ -24,7 +24,7 @@ public class Executor {
                     TwitterBot twitterBot = new TwitterBot();
 
         CoinMarketCapRestClient ethereumClient = new CoinMarketCapRestClient();
-            twitterBot.updateStatus(ethereumClient.composeMessage("eth"));
+            twitterBot.updateStatus(ethereumClient.composeMessage("ethereum"));
             System.out.println("executed!");
 
     }

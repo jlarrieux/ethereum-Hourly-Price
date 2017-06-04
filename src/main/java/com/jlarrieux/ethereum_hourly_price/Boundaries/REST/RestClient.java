@@ -55,8 +55,15 @@ public class RestClient {
     }
 
     protected JsonObject getJsonObjectFromJsonString(String json) {
-        JsonElement jsonElement = new JsonParser().parse(json);
-        return jsonElement.getAsJsonObject();
+        return getJsonElementFromString(json).getAsJsonObject();
+    }
+
+    protected JsonArray getJsonArrayFromJsonString(String json){
+        return getJsonElementFromString(json).getAsJsonArray();
+    }
+
+    private JsonElement getJsonElementFromString(String json){
+        return new JsonParser().parse(json);
     }
 
 

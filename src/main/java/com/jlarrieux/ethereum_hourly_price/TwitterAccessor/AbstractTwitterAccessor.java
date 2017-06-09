@@ -50,8 +50,8 @@ public abstract class AbstractTwitterAccessor implements Serializable{
     private  void getTwitterAccess() throws IOException, TwitterException {
 // The factory instance is re-useable and thread safe.
         twitter = new TwitterFactory().getInstance();
-        //todo place this into a file
-//        System.out.println(String.format("Consumer key: %s\nConsumer Secret: %s", getConsumerKey(), getConsumerSecret()));
+        boolean writeFlag = false;
+
         twitter.setOAuthConsumer(getConsumerKey(), getConsumerSecret());
         RequestToken requestToken = twitter.getOAuthRequestToken();
         aT = null;

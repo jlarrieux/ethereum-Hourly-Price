@@ -2,7 +2,6 @@ package com.jlarrieux.ethereum_hourly_price.Boundaries;
 
 
 
-import com.jlarrieux.ethereum_hourly_price.Boundaries.REST.CoinMarketCapRestClient;
 import com.jlarrieux.ethereum_hourly_price.TwitterAccessor.CryptoTwitterBot;
 import com.jlarrieux.ethereum_hourly_price.TwitterAccessor.EthereumTwitterBot;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,19 +23,15 @@ public class Executor {
 
     @Scheduled(cron="0 0 * * * *")
     public void sendTweet() throws IOException, TwitterException {
-
-        EthereumTwitterBot twitterBot = new EthereumTwitterBot();
-        CoinMarketCapRestClient ethereumClient = new CoinMarketCapRestClient();
-//        twitterBot.updateStatus(ethereumClient.composeMessage("ethereum"));
-        System.out.println("executed!");
-
+        new CryptoTwitterBot().updateStatus();
+        new EthereumTwitterBot().updateStatus();
     }
 
 
-    @Scheduled(fixedRate = 1000)
-    public void test() throws IOException, TwitterException {
-        CryptoTwitterBot twitterBot = new CryptoTwitterBot();
-       // twitterBot.updateStatus();
-    }
+//    @Scheduled(fixedRate = 30000)
+//    public void test() throws IOException, TwitterException {
+//        new CryptoTwitterBot().updateStatus();
+//        new EthereumTwitterBot().updateStatus();
+//    }
 
 }

@@ -2,6 +2,8 @@ package com.jlarrieux.ethereum_hourly_price.Boundaries.properties;
 
 
 
+import com.jlarrieux.ethereum_hourly_price.other.Constants;
+
 import java.io.*;
 import java.util.Properties;
 
@@ -20,7 +22,7 @@ public class PropertiesManager {
 //        FileInputStream inputStream = (FileInputStream) Thread.currentThread().getContextClassLoader().getResourceAsStream("/tone/token.properties");
 //        System.out.println(file.exists());
         Properties properties = PropertiesManager.loadPrevious();
-        System.out.println(LOCATION);
+        System.out.println(new File(Constants.SRC_MAIN_RESOURCES+LOCATION).getAbsolutePath());
         System.out.println(properties.getProperty("redeere"));
 
     }

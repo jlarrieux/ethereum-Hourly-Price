@@ -2,10 +2,10 @@ package com.jlarrieux.ethereum_hourly_price.TwitterAccessor;
 
 
 
-import com.jlarrieux.ethereum_hourly_price.Boundaries.Constants;
+import com.jlarrieux.ethereum_hourly_price.Boundaries.Entity.Global;
+import com.jlarrieux.ethereum_hourly_price.Boundaries.REST.CoinMarketCapRestClient;
 import com.jlarrieux.ethereum_hourly_price.Boundaries.properties.PropertiesManager;
-import twitter4j.Status;
-import twitter4j.StatusUpdate;
+import com.jlarrieux.ethereum_hourly_price.other.Constants;
 import twitter4j.TwitterException;
 
 import java.io.IOException;
@@ -17,6 +17,7 @@ import java.io.IOException;
  */
 public class CryptoTwitterBot extends AbstractTwitterAccessor {
 
+    Global global;
 
     public CryptoTwitterBot() throws IOException, TwitterException {
         super();
@@ -47,18 +48,22 @@ public class CryptoTwitterBot extends AbstractTwitterAccessor {
 
 
 
-    @Override
-    protected String getStatusString() {
 
-        return String.valueOf(System.currentTimeMillis());
-    }
+
 
 
 
     @Override
     public void updateStatus() throws TwitterException, IOException {
-        StatusUpdate su = new StatusUpdate(getStatusString());
-        Status status = twitter.updateStatus(su);
+        global = new Global( CoinMarketCapRestClient.getGlobal());
+
+        tweetGlobalStatus();
+    }
+
+    private void tweetGlobalStatus() throws TwitterException{
+        double marketcap = global.getTotalMarketCap();
+        double _24hourVolume = global.get24HourVolume();
+        twitter.updateStatus(String.format(global.getGLOBAL_STATUS_TEMPLATE(),Constants.currencyParse(marketcap),Constants.currencyParse( _24hourVolume)));
     }
 
     public static void main(String[] args) throws IOException, TwitterException {

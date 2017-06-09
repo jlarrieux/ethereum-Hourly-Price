@@ -2,7 +2,7 @@ package com.jlarrieux.ethereum_hourly_price.TwitterAccessor;
 
 
 
-import com.jlarrieux.ethereum_hourly_price.Boundaries.Constants;
+import com.jlarrieux.ethereum_hourly_price.other.Constants;
 import com.jlarrieux.ethereum_hourly_price.Boundaries.Entity.Coin;
 import twitter4j.TwitterException;
 
@@ -25,7 +25,7 @@ public abstract class AbstractCoinManager extends AbstractTwitterAccessor {
     }
 
 
-    @Override
+
     protected String getStatusString(){
         double price = coin.getPrice();
         double marketcap = coin.getMarketCap();

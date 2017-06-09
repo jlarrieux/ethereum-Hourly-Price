@@ -1,4 +1,4 @@
-package com.jlarrieux.ethereum_hourly_price;
+package com.jlarrieux.ethereum_hourly_price.Main;
 
 
 

@@ -1,4 +1,4 @@
-package com.jlarrieux.ethereum_hourly_price.Boundaries;
+package com.jlarrieux.ethereum_hourly_price.other;
 
 
 
@@ -25,8 +25,8 @@ public class Constants {
     public static final String SRC_MAIN_RESOURCES = "src/main/resources/";
     public static final String CRYPTO = "crypto";
     public static final String URI_PREFIX = "https://api.coinmarketcap.com/v1/";
-    public static final String URI_COIN ="https://api.coinmarketcap.com/v1/ticker/%s";
-
+    public static final String URI_COIN = URI_PREFIX+"ticker/%s";
+    public static final String URI_GLOBAL = URI_PREFIX +"global";
 
 
     public static String combineName(String prefix, String suffix){

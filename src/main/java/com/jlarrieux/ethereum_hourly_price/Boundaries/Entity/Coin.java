@@ -3,7 +3,7 @@ package com.jlarrieux.ethereum_hourly_price.Boundaries.Entity;
 
 
 import com.google.gson.JsonObject;
-import com.jlarrieux.ethereum_hourly_price.Boundaries.Constants;
+import com.jlarrieux.ethereum_hourly_price.other.Constants;
 import com.jlarrieux.ethereum_hourly_price.Boundaries.REST.CoinMarketCapRestClient;
 
 

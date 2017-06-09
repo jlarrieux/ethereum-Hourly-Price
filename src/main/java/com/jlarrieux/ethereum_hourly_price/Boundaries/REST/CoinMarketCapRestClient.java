@@ -4,7 +4,7 @@ package com.jlarrieux.ethereum_hourly_price.Boundaries.REST;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.jlarrieux.ethereum_hourly_price.Boundaries.Constants;
+import com.jlarrieux.ethereum_hourly_price.other.Constants;
 
 import java.io.Serializable;
 
@@ -14,11 +14,6 @@ import java.io.Serializable;
  * Created by Jeannius on 6/2/2017.
  */
 public class CoinMarketCapRestClient extends RestClient implements Serializable{
-
-    double lastPrice, currentPrice=0;
-
-    private JsonObject jsonObject;
-    private String priceFile = "lastPrice.ether";
 
 
 
@@ -31,9 +26,15 @@ public class CoinMarketCapRestClient extends RestClient implements Serializable{
         return Constants.getJsonArrayFromJsonString(json);
     }
 
+    public static JsonObject getGlobal(){
+        return Constants.getJsonObjectFromJsonString(getJsonAsString(Constants.URI_GLOBAL));
+    }
 
 
 
+    public static void main(String[] args){
+        System.out.println(CoinMarketCapRestClient.getGlobal());
+    }
 
 
 

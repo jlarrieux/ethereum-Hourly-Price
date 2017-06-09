@@ -2,6 +2,7 @@ package com.jlarrieux.ethereum_hourly_price.TwitterAccessor;
 
 
 
+import com.jlarrieux.ethereum_hourly_price.other.Constants;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -74,18 +75,19 @@ public abstract class AbstractTwitterAccessor implements Serializable{
                     te.printStackTrace();
                 }
             }
+            writeFlag = true;
 
         }
 //        System.out.println("Access Token to string: "+ aT.toString());
         aTID = twitter.verifyCredentials().getId();
-//        writeObject();
+        if(writeFlag) writeObject();
 //        PropertiesManager.writeProp(Constants.combineName(name,Constants.ACCESS_TOKEN), aT);
     }
 
 
     private  void readObject() {
         try {
-            System.out.println("Written to file: "+fileName);
+            System.out.println("Reading to file: "+fileName);
             InputStream fileIn =getClass().getResourceAsStream(fileName);
             ObjectInputStream in = new ObjectInputStream(fileIn);
              AbstractTwitterAccessor dftb = (AbstractTwitterAccessor) in.readObject();
@@ -114,10 +116,11 @@ public abstract class AbstractTwitterAccessor implements Serializable{
 
 
     private  void writeObject() throws IOException {
-        FileOutputStream fileOut =
-                new FileOutputStream(fileName);
-        ObjectOutputStream out =
-                new ObjectOutputStream(fileOut);
+        File file = new File(Constants.SRC_MAIN_RESOURCES+fileName);
+        System.out.println("file full: "+ file.getAbsolutePath());
+        file.createNewFile();
+        FileOutputStream fileOut = new FileOutputStream(file);
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
         System.out.println("Serialising:...");
         System.out.println("Access Token ID: " + aTID);
         System.out.println("Access Token: " + aT.toString());
@@ -132,7 +135,7 @@ public abstract class AbstractTwitterAccessor implements Serializable{
     }
 
     protected  abstract void setName();
-    protected abstract String getStatusString();
+
     public abstract void updateStatus() throws TwitterException,IOException;
 
     protected String qualifer(double difference){

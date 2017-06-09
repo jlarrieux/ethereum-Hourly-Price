@@ -2,7 +2,7 @@ package com.jlarrieux.ethereum_hourly_price.TwitterAccessor;
 
 
 
-import com.jlarrieux.ethereum_hourly_price.Boundaries.Constants;
+import com.jlarrieux.ethereum_hourly_price.other.Constants;
 import com.jlarrieux.ethereum_hourly_price.Boundaries.properties.PropertiesManager;
 import twitter4j.Status;
 import twitter4j.StatusUpdate;

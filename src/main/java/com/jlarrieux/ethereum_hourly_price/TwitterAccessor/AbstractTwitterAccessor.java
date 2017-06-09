@@ -2,7 +2,6 @@ package com.jlarrieux.ethereum_hourly_price.TwitterAccessor;
 
 
 
-import com.jlarrieux.ethereum_hourly_price.Boundaries.Constants;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -28,11 +27,19 @@ public abstract class AbstractTwitterAccessor implements Serializable{
 
     public AbstractTwitterAccessor() throws IOException, TwitterException {
         setName();
-        fileName = Constants.SRC_MAIN_RESOURCES+"token/"+name+".info";
-        File file = new File(fileName);
-        if(file.exists()) readObject();
+        fileName = "/token/"+name+".info";
+
+        InputStream in = getClass().getResourceAsStream(fileName);
+        System.out.println(in==null);
+
+        if(in!=null) readObject();
         else getTwitterAccess();
 
+    }
+
+    private File getTempFile(){
+
+        return null;
     }
 
     protected abstract String  getConsumerKey();
@@ -44,7 +51,7 @@ public abstract class AbstractTwitterAccessor implements Serializable{
 // The factory instance is re-useable and thread safe.
         twitter = new TwitterFactory().getInstance();
         //todo place this into a file
-        System.out.println(String.format("Consumer key: %s\nConsumer Secret: %s", getConsumerKey(), getConsumerSecret()));
+//        System.out.println(String.format("Consumer key: %s\nConsumer Secret: %s", getConsumerKey(), getConsumerSecret()));
         twitter.setOAuthConsumer(getConsumerKey(), getConsumerSecret());
         RequestToken requestToken = twitter.getOAuthRequestToken();
         aT = null;
@@ -71,7 +78,7 @@ public abstract class AbstractTwitterAccessor implements Serializable{
         }
 //        System.out.println("Access Token to string: "+ aT.toString());
         aTID = twitter.verifyCredentials().getId();
-        writeObject();
+//        writeObject();
 //        PropertiesManager.writeProp(Constants.combineName(name,Constants.ACCESS_TOKEN), aT);
     }
 
@@ -79,8 +86,7 @@ public abstract class AbstractTwitterAccessor implements Serializable{
     private  void readObject() {
         try {
             System.out.println("Written to file: "+fileName);
-            FileInputStream fileIn =
-                    new FileInputStream(fileName);
+            InputStream fileIn =getClass().getResourceAsStream(fileName);
             ObjectInputStream in = new ObjectInputStream(fileIn);
              AbstractTwitterAccessor dftb = (AbstractTwitterAccessor) in.readObject();
              aT = dftb.aT;
@@ -127,7 +133,7 @@ public abstract class AbstractTwitterAccessor implements Serializable{
 
     protected  abstract void setName();
     protected abstract String getStatusString();
-    protected abstract void updateStatus() throws TwitterException,IOException;
+    public abstract void updateStatus() throws TwitterException,IOException;
 
     protected String qualifer(double difference){
         return difference<0? "a decrease of ": "an increase of +";

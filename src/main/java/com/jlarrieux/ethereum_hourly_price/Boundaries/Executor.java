@@ -3,15 +3,13 @@ package com.jlarrieux.ethereum_hourly_price.Boundaries;
 
 
 import com.jlarrieux.ethereum_hourly_price.Boundaries.REST.CoinMarketCapRestClient;
+import com.jlarrieux.ethereum_hourly_price.TwitterAccessor.CryptoTwitterBot;
 import com.jlarrieux.ethereum_hourly_price.TwitterAccessor.EthereumTwitterBot;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import twitter4j.TwitterException;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 
 
 
@@ -35,18 +33,10 @@ public class Executor {
     }
 
 
-    @Scheduled(fixedRate = 500)
-    public void test(){
-        try {
-            ClassPathResource resource = new ClassPathResource("secret/token.properties");
-            InputStream inputStream = resource.getInputStream();
-
-            Properties properties = new Properties();
-            properties.load(inputStream);
-            System.out.println(properties.getProperty("red"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @Scheduled(fixedRate = 1000)
+    public void test() throws IOException, TwitterException {
+        CryptoTwitterBot twitterBot = new CryptoTwitterBot();
+       // twitterBot.updateStatus();
     }
 
 }

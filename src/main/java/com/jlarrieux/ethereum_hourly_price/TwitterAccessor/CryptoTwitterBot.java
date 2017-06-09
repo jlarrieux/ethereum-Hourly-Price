@@ -26,7 +26,8 @@ public class CryptoTwitterBot extends AbstractTwitterAccessor {
 
     @Override
     protected String getConsumerKey() {
-        return PropertiesManager.readPropertiesValue(Constants.combineName(name, Constants.CONSUMER_KEY));
+         return PropertiesManager.readPropertiesValue(Constants.combineName(name, Constants.CONSUMER_KEY));
+
     }
 
 
@@ -34,6 +35,7 @@ public class CryptoTwitterBot extends AbstractTwitterAccessor {
     @Override
     protected String getConsumerSecret() {
         return PropertiesManager.readPropertiesValue(Constants.combineName(name, Constants.CONSUMER_SECRET));
+
     }
 
 
@@ -47,13 +49,14 @@ public class CryptoTwitterBot extends AbstractTwitterAccessor {
 
     @Override
     protected String getStatusString() {
-        return "test2";
+
+        return String.valueOf(System.currentTimeMillis());
     }
 
 
 
     @Override
-    protected void updateStatus() throws TwitterException, IOException {
+    public void updateStatus() throws TwitterException, IOException {
         StatusUpdate su = new StatusUpdate(getStatusString());
         Status status = twitter.updateStatus(su);
     }

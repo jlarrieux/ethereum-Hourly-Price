@@ -17,7 +17,7 @@ public class Test {
     public static void main(String[] args) throws IOException{
         CoinMarketCapRestClient client = new CoinMarketCapRestClient();
 
-       System.out.println( client.getCurrentPrice("eth"));
+
 
 //        Client client = Client.create();
 //

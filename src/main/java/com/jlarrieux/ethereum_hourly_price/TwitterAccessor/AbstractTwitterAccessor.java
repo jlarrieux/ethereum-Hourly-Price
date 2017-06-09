@@ -2,6 +2,7 @@ package com.jlarrieux.ethereum_hourly_price.TwitterAccessor;
 
 
 
+import com.jlarrieux.ethereum_hourly_price.Boundaries.Constants;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -15,24 +16,36 @@ import java.io.*;
 /**
  * Created by Jeannius on 6/1/2017.
  */
-public class AbstractTwitterAccessor implements Serializable{
+public abstract class AbstractTwitterAccessor implements Serializable{
 
     protected Twitter twitter;
     protected AccessToken aT;
     private long aTID;
-    private String fileName = "myTwitterDetails.info";
+    protected String fileName;
+    protected String  name;
+
+
 
     public AbstractTwitterAccessor() throws IOException, TwitterException {
+        setName();
+        fileName = Constants.SRC_MAIN_RESOURCES+"token/"+name+".info";
         File file = new File(fileName);
         if(file.exists()) readObject();
         else getTwitterAccess();
 
     }
 
+    protected abstract String  getConsumerKey();
+
+    protected abstract String getConsumerSecret();
+
+
     private  void getTwitterAccess() throws IOException, TwitterException {
 // The factory instance is re-useable and thread safe.
         twitter = new TwitterFactory().getInstance();
-        twitter.setOAuthConsumer("qMZDFk10229IbUsrM5r5IlzQu", "6pPU6pUeqwbb9ivBg9a8O3tueliidSDz9mT6BjUnYLjy77wBCp");
+        //todo place this into a file
+        System.out.println(String.format("Consumer key: %s\nConsumer Secret: %s", getConsumerKey(), getConsumerSecret()));
+        twitter.setOAuthConsumer(getConsumerKey(), getConsumerSecret());
         RequestToken requestToken = twitter.getOAuthRequestToken();
         aT = null;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -56,15 +69,16 @@ public class AbstractTwitterAccessor implements Serializable{
             }
 
         }
-
+//        System.out.println("Access Token to string: "+ aT.toString());
         aTID = twitter.verifyCredentials().getId();
         writeObject();
-//System.exit(0);
+//        PropertiesManager.writeProp(Constants.combineName(name,Constants.ACCESS_TOKEN), aT);
     }
 
 
     private  void readObject() {
         try {
+            System.out.println("Written to file: "+fileName);
             FileInputStream fileIn =
                     new FileInputStream(fileName);
             ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -103,9 +117,21 @@ public class AbstractTwitterAccessor implements Serializable{
         System.out.println("Access Token: " + aT.toString());
         System.out.println("Tweitter: " + twitter.toString());
         out.writeObject(this);
+        System.out.println("Written to file: "+fileName);
         out.close();
+
         fileOut.close();
 
+
     }
+
+    protected  abstract void setName();
+    protected abstract String getStatusString();
+    protected abstract void updateStatus() throws TwitterException,IOException;
+
+    protected String qualifer(double difference){
+        return difference<0? "a decrease of ": "an increase of +";
+    }
+
 
 }
